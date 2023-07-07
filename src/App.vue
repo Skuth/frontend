@@ -1,17 +1,36 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div>
+    <ul>
+      <h2>Finalizados</h2>
+      <li v-for="todo in $doneTodos" :key="todo.id">
+        {{ todo.text }}
+      </li>
+    </ul>
+
+    <ul>
+      <h2>Não finalizados</h2>
+      <li v-for="todo in $currentTodos" :key="todo.id">
+        {{ todo.text }}
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
-
 export default {
   name: "App",
-  components: {
-    HelloWorld,
+  computed: {
+    $doneTodos() {
+      return this.$store.getters.$doneTodos
+    },
+    $currentTodos() {
+      return this.$store.getters.$currentTodos
+    }
   },
-};
+  created() {
+    this.$store.dispatch("fetchTodos")
+  }
+}
 </script>
 
 <style>
